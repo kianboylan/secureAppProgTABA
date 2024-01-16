@@ -1,33 +1,41 @@
 <?php
-	header("Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'");
-?>
-<?php
-	//Starts session
 	session_start();
-	//Establishes Database Connection
 	require_once 'connection.php';
- 
-	if(ISSET($_POST['login'])){
-		// Setting Variables
+
+	if (isset($_POST['login'])) {
 		$username = trim($_POST['username']);
 		$password = trim($_POST['password']);
 
-		// This query is used to check if the login credentials are valid. A count is requested where the username and password match what the user inputted.
-		$query = "SELECT COUNT(*) as count FROM `users` WHERE `username` = :username AND `password` = :password";
+		// This selects the info from the database and compares it to the user's input
+		$query = "SELECT password FROM `users` WHERE `username` = :username";
 		$stmt = $conn->prepare($query);
 		$stmt->bindParam(':username', $username);
-		$stmt->bindParam(':password', $password);
 		$stmt->execute();
+
+		//This fetches the next row in a database as it checks for the inputted password
 		$row = $stmt->fetch();
- 
-		$count = $row['count'];
-		// If the count is greater than 0, then this is classed as a successful login and the user will be brought to the homepage.The count is greater than 0 because when the check was made,it found 1 user with corresponding usernames and passwords.
-		if($count > 0){
-			header('location:homepage.php');
-		}else{
-			//This occurs when the count doesn't find any corresponding usernames and passwords that match the user's input. They stay on the login page and will be asked to retry.
-			$_SESSION['error'] = "Invalid username or password";
-			header('location:login.php');
+
+		if ($row) {
+			// If there is a user with the supplied username, the password is checked 
+			$hashedPassword = $row['password'];
+
+			//The password verify method checks the plaintext password, hashes it, and compares it to the other hashed passwords within the database to see if the hashes match.
+			//If they do, the user can successfully login
+			if (password_verify($password, $hashedPassword)) {
+				// User is brought to homepage 
+				header('location: homepage.php');
+				exit();
+			} else {
+				// Password does not match
+				$_SESSION['error'] = "Invalid password";
+			}
+		} else {
+			// No user with the given username
+			$_SESSION['error'] = "Invalid username";
 		}
+
+		// Redirect back to the login page
+		header('location: login.php');
+		exit();
 	}
 ?>

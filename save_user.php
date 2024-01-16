@@ -14,11 +14,12 @@
 		$username = trim($_POST['username']);
 		$password = trim($_POST['password']);
 		
+		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 		// This query inserts the user's registration details into the relevant fields in the 'users' table
 		$query = "INSERT INTO `users` (username, password) VALUES(:username, :password)";
 		$stmt = $conn->prepare($query);
 		$stmt->bindParam(':username', $username);
-		$stmt->bindParam(':password', $password);
+		$stmt->bindParam(':password', $hashedPassword);
  
 		// This checks if the registration was a success
 		if($stmt->execute()){

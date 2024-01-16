@@ -8,7 +8,8 @@
     </head>
 
     <body>
-        <h3>Welcome User</h3>
-        <a href="login.php">Log Out Here</a>
+        <h3>Movie Reviews</h3>
+		<small class="pagelink"><a href="login.php">Logout</a>
+	</div>
     </body>
 </html>

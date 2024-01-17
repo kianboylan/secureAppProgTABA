@@ -27,11 +27,11 @@
 				exit();
 			} else {
 				// Password does not match
-				$_SESSION['error'] = "Invalid password";
+				$_SESSION['error'] = "Invalid password or password";
 			}
 		} else {
 			// No user with the given username
-			$_SESSION['error'] = "Invalid username";
+			$_SESSION['error'] = "Invalid username or password";
 		}
 
 		// Redirect back to the login page

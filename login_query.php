@@ -18,8 +18,11 @@
 		$row = $stmt->fetch();
  
 		$count = $row['count'];
+
+		//If there is matching usernames and passwords present in the database table, the count will be greater than 0 so this will allow the user to log in 
 		if($count > 0){
 			header('location:home.php');
+		//But if there is nothing in the table, then the user will not be granted access and will be told that the username or password are incorrect
 		}else{
 			$_SESSION['error'] = "Invalid username or password";
 			header('location:login.php');

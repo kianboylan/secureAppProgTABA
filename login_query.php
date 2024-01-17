@@ -3,8 +3,8 @@
 	require_once 'connection.php';
 
 	if (isset($_POST['login'])) {
-		$username = trim($_POST['username']);
-		$password = trim($_POST['password']);
+		$username = htmlspecialchars($_POST['username']);
+		$password = htmlspecialchars($_POST['password']);
 
 		// This selects the info from the database and compares it to the user's input
 		$query = "SELECT password FROM `users` WHERE `username` = :username";

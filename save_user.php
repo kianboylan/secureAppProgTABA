@@ -1,8 +1,4 @@
-<?php
-	header("Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'");
-?>
-<?php
-	
+<?php	
 	//Starts the session
 	session_start();
  
@@ -11,15 +7,15 @@
  
 	if(ISSET($_POST['register'])){
 		// Set up the variables that will be filled in
-		$username = trim($_POST['username']);
-		$password = trim($_POST['password']);
+		$username = $_POST['username'];
+		$password = $_POST['password'];
 		
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 		// This query inserts the user's registration details into the relevant fields in the 'users' table
 		$query = "INSERT INTO `users` (username, password) VALUES(:username, :password)";
 		$stmt = $conn->prepare($query);
 		$stmt->bindParam(':username', $username);
-		$stmt->bindParam(':password', $hashedPassword);
+		$stmt->bindParam(':password', $password);
  
 		// This checks if the registration was a success
 		if($stmt->execute()){

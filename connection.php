@@ -1,6 +1,4 @@
-<?php
-	header("Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'");
-?>
+
 <?php
 	//This checks to see if the database already exists. If it doesn't then the database will be created
 	if(!is_file('db/user.sqlite3')){

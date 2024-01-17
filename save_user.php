@@ -11,8 +11,8 @@
  
 	if(ISSET($_POST['register'])){
 		// Set up the variables that will be filled in
-		$username = trim($_POST['username']);
-		$password = trim($_POST['password']);
+		$username = htmlspecialchars($_POST['username']);
+		$password = htmlspecialchars($_POST['password']);
 		
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 		// This query inserts the user's registration details into the relevant fields in the 'users' table
